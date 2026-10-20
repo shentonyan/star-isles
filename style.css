@@ -1,0 +1,482 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+:root {
+  color-scheme: dark;
+  --ink: #f3edda;
+  --muted: #b2c7bb;
+  --gold: #f9cc79;
+  --glass: #153e40e8;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #123b42;
+  color: var(--ink);
+  font:
+    14px "Space Grotesk",
+    system-ui,
+    sans-serif;
+  overflow: hidden;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  border: 1px solid #e4eac326;
+  background: #1c414054;
+  border-radius: 7px;
+  padding: 10px 14px;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+button:hover {
+  background: #f5d89720;
+  transform: translateY(-1px);
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+canvas#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  outline: none;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 28px 3.4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  background: linear-gradient(#143b405e, transparent);
+}
+.brand {
+  font-size: 19px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  display: grid;
+  grid-template-columns: 27px auto;
+  align-items: center;
+}
+.brand-icon {
+  color: var(--gold);
+  grid-row: span 2;
+  font-size: 30px;
+}
+.brand small {
+  letter-spacing: 2.8px;
+  font-size: 8px;
+  opacity: 0.55;
+  margin-top: 3px;
+}
+nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+nav a {
+  font-size: 12px;
+  padding-left: 15px;
+}
+kbd {
+  font: 10px monospace;
+  opacity: 0.5;
+  margin-left: 8px;
+}
+#intro {
+  position: fixed;
+  left: 9%;
+  top: 23%;
+  z-index: 1;
+  transition:
+    opacity 0.65s,
+    transform 0.65s;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 23px;
+}
+h1 {
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(35px, 4vw, 60px);
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  margin: 0 0 19px;
+  text-shadow: 0 3px 25px #123c4050;
+}
+h1 span {
+  color: var(--gold);
+}
+#intro p {
+  font-size: 13px;
+  line-height: 2.2;
+  color: #d8e1cc;
+  letter-spacing: 1px;
+}
+button.primary {
+  background: var(--gold);
+  color: #264541;
+  border: 0;
+  padding: 15px 25px;
+  min-width: 180px;
+  font-weight: 600;
+  margin-top: 19px;
+  box-shadow: 0 6px 30px #082d3a20;
+}
+button.primary span {
+  float: right;
+  margin-left: 30px;
+}
+.intro-note {
+  margin-top: 20px;
+  font-size: 10px;
+  color: #c3d0bf9c;
+  letter-spacing: 1px;
+}
+.playing #intro {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+#location {
+  position: fixed;
+  left: 3.4%;
+  bottom: 83px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.location-mark {
+  font-size: 30px;
+  color: var(--gold);
+}
+#location small {
+  display: block;
+  letter-spacing: 2px;
+  font-size: 8px;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+#location strong {
+  font:
+    500 18px "Noto Serif SC",
+    serif;
+  letter-spacing: 2px;
+}
+#quest {
+  position: fixed;
+  right: 3.4%;
+  bottom: 86px;
+  width: 285px;
+  background: #173c4166;
+  border: 1px solid #d4dbb722;
+  border-radius: 9px;
+  padding: 17px 19px;
+  backdrop-filter: blur(10px);
+}
+#quest small {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+#quest > div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 12px;
+}
+#starCount {
+  color: var(--gold);
+  font-size: 16px;
+  white-space: nowrap;
+}
+#questText {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #b6cabd;
+}
+.progress {
+  height: 3px;
+  background: #ffffff14;
+  border-radius: 3px;
+}
+.progress i {
+  display: block;
+  height: 3px;
+  background: var(--gold);
+  width: 0;
+  transition: width 0.5s;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 19px 3.4%;
+  border-top: 1px solid #cfdfb51c;
+  display: flex;
+  justify-content: space-between;
+  color: #b8cdb299;
+  font-size: 9px;
+  letter-spacing: 1px;
+  background: #11374065;
+}
+.live-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: #a8cba0;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+footer b {
+  margin: 0 9px;
+  opacity: 0.4;
+}
+#engine {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+}
+#prompt {
+  position: fixed;
+  bottom: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 19px;
+  background: var(--glass);
+  border: 1px solid #f9cc7960;
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+}
+#toast {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, -12px);
+  background: var(--glass);
+  border: 1px solid #f9cc7930;
+  border-radius: 8px;
+  padding: 12px 23px;
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+  text-align: center;
+  max-width: 90%;
+  z-index: 5;
+}
+#toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+dialog {
+  color: var(--ink);
+  background: #173c40f5;
+  border: 1px solid #f4d28c50;
+  border-radius: 16px;
+  width: min(570px, 90vw);
+  max-height: 80dvh;
+  padding: 36px;
+  box-shadow: 0 30px 100px #001e2ecc;
+  font-size: 14px;
+  line-height: 1.9;
+}
+dialog::backdrop {
+  background: #0c283d88;
+  backdrop-filter: blur(5px);
+}
+dialog h2 {
+  font:
+    600 28px "Noto Serif SC",
+    serif;
+  line-height: 1.5;
+  margin: 10px 0 20px;
+}
+dialog p {
+  color: #c5d4c5;
+}
+dialog a {
+  color: var(--gold);
+  display: inline-block;
+  margin: 6px 8px 6px 0;
+}
+#closePanel {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  border: 0;
+  font-size: 24px;
+  background: transparent;
+}
+dialog .eyebrow {
+  margin: 0;
+}
+.map-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.map-grid button {
+  text-align: left;
+  padding: 15px;
+}
+.map-grid small {
+  display: block;
+  opacity: 0.55;
+}
+.map-grid button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.tag {
+  display: inline-block;
+  border: 1px solid #f9cc7933;
+  border-radius: 4px;
+  font-size: 10px;
+  padding: 2px 8px;
+  color: var(--gold);
+}
+#touch {
+  display: none;
+  position: fixed;
+  bottom: 140px;
+  left: 20px;
+  right: 20px;
+  gap: 9px;
+}
+#touch button {
+  background: #173c4088;
+  width: 48px;
+  height: 48px;
+  touch-action: none;
+  user-select: none;
+}
+#touch button:nth-child(3) {
+  margin-left: auto;
+}
+body:not(.playing) #location {
+  opacity: 0.6;
+}
+noscript {
+  position: fixed;
+  bottom: 30%;
+  left: 10%;
+  background: #173c40;
+  padding: 20px;
+}
+@media (max-width: 700px) {
+  header {
+    padding: 19px 5%;
+  }
+  .brand {
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  .brand small {
+    font-size: 6px;
+    letter-spacing: 1.5px;
+  }
+  nav {
+    gap: 6px;
+  }
+  nav button {
+    font-size: 11px;
+    padding: 8px;
+  }
+  nav a,
+  kbd,
+  #engine,
+  #controls {
+    display: none;
+  }
+  #intro {
+    left: 8%;
+    top: 24%;
+  }
+  h1 {
+    font-size: 38px;
+  }
+  #intro p {
+    font-size: 12px;
+  }
+  #quest {
+    right: 5%;
+    bottom: 65px;
+    width: 210px;
+    padding: 12px;
+  }
+  #questText {
+    font-size: 9px;
+  }
+  #location {
+    left: 5%;
+    bottom: 70px;
+  }
+  #location strong {
+    font-size: 14px;
+  }
+  #location small {
+    font-size: 6px;
+  }
+  footer {
+    padding: 15px 5%;
+    font-size: 8px;
+  }
+  #touch {
+    display: flex;
+  }
+  body:not(.playing) #touch {
+    display: none;
+  }
+  #prompt {
+    bottom: 210px;
+    width: max-content;
+    max-width: 90%;
+    text-align: center;
+  }
+  dialog {
+    padding: 28px;
+  }
+  #toast {
+    top: 80px;
+    font-size: 12px;
+  }
+  .eyebrow {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+@media (max-width: 700px) {
+  #touch {
+    bottom: 185px;
+  }
+  #prompt {
+    bottom: 260px;
+  }
+}

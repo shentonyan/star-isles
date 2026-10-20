@@ -1,0 +1,8 @@
+[package]
+name = "star-isles-terrain"
+version = "1.0.0"
+edition = "2021"
+license = "MIT"
+description = "Deterministic terrain generator for Star Isles"
+[lib]
+crate-type = ["cdylib", "rlib"]

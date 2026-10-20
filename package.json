@@ -1,0 +1,12 @@
+{
+  "name": "star-isles",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build:world": "node tools/build-world.mjs"
+  },
+  "description": "A tiny explorable pixel world, powered by Rust and Canvas."
+}
