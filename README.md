@@ -33,6 +33,22 @@ Descriptions were checked against repository READMEs and public descriptions. Th
 
 On mobile, use the on-screen controls. Stars are collected on contact. Bring all twelve to the eastern lighthouse and press E. Progress is saved in the current browser; clearing site data clears the save. Sound is off by default. The top bar switches between sunset and night.
 
+## Hidden discoveries
+
+Four optional secrets live along the coast. Open **Help (?) → Field notes** for gentle hints and a record of your finds. The discoveries work with keyboard or touch controls and save separately from the main quest. They do not change the twelve-star objective. Reduced-motion preferences are respected by the added effects.
+
+<details>
+<summary>Spoilers: how to find all four</summary>
+
+- **The Tide Code:** while playing, press left, right, left, right, jump, jump. On a keyboard use the arrow keys and Space; on mobile use the corresponding on-screen buttons. A brief constellation appears.
+- **A Message in a Bottle:** interact with the harbor three times in one session, closing the panel between visits. Read the bottle's message in Field notes.
+- **The Moonlight Visitor:** switch to night, then stand still on the ground in the garden for eight active seconds. A small fox appears, and returns on future nights after you discover it.
+- **Beyond the Last Light:** light the lighthouse, then continue east beyond it to see a meteor shower.
+
+Paused time and time spent in panels do not count toward the garden wait. Effects are temporary; discoveries persist in this browser.
+
+</details>
+
 ## Run locally
 
 Requires Node.js 22 or later. No npm dependencies are needed.

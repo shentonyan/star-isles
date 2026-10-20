@@ -6,6 +6,7 @@ import {
   starPositions,
   readSave,
 } from "./world.js";
+import { secrets, loadSecrets, createTideCode } from "./secrets.js";
 const $ = (id) => document.getElementById(id),
   canvas = $("game"),
   ctx = canvas.getContext("2d", { alpha: false });
@@ -45,6 +46,30 @@ const save = readSave(storage),
   player = { x: 35 * T, y: 0, vx: 0, vy: 0, ground: false, facing: 1 };
 player.y = terrain(35) * T - 25;
 const particles = [];
+const discoveries = loadSecrets(storage),
+  tideCode = createTideCode();
+let harborVisits = 0,
+  gardenStill = 0,
+  secretGlow = 0,
+  meteorTime = 0;
+function discover(id) {
+  if (discoveries.has(id)) return;
+  discoveries.add(id);
+  try {
+    storage.setItem("star-isles-secrets-v1", JSON.stringify([...discoveries]));
+  } catch {}
+  const secret = secrets.find((s) => s.id === id);
+  toast(
+    `Secret found: ${secret.name} · ${discoveries.size} / ${secrets.length}`,
+  );
+  burst(player.x + 5, player.y, reduced ? 0 : 35);
+  note(1046, 0.6);
+}
+function fieldNotes() {
+  openPanel(
+    `<div class="eyebrow">THE THINGS BETWEEN THE STARS</div><h2>Field notes · ${discoveries.size} / ${secrets.length}</h2><p>There is more to this coast than its twelve stars. These discoveries are saved separately from your journey.</p>${secrets.map((s) => `<article class="project-card"><strong>${discoveries.has(s.id) ? "✦ " + s.name : "◇ An undiscovered secret"}</strong><p>${discoveries.has(s.id) ? s.story : s.hint}</p></article>`).join("")}`,
+  );
+}
 let currentPlace = 0,
   near = null,
   jumpBuffer = 0,
@@ -488,7 +513,66 @@ function draw() {
     rect(p.x, p.y, 2, 2, p.color);
   }
   ctx.globalAlpha = 1;
+  if (discoveries.has("moon-fox") && night) {
+    const fx = 355 * T + 25,
+      fy = terrain(355) * T;
+    glow(fx, fy - 8, 24, "#dcebc52a");
+    rect(fx - 8, fy - 10, 16, 7, "#d6ddc5");
+    rect(fx + 3, fy - 15, 8, 8, "#e5e8d0");
+    poly(
+      [
+        [fx + 3, fy - 14],
+        [fx + 3, fy - 21],
+        [fx + 7, fy - 14],
+      ],
+      "#d6ddc5",
+    );
+    poly(
+      [
+        [fx + 8, fy - 14],
+        [fx + 11, fy - 21],
+        [fx + 11, fy - 14],
+      ],
+      "#d6ddc5",
+    );
+    rect(fx + 8, fy - 12, 2, 2, "#34524e");
+    rect(fx - 7, fy - 3, 3, 3, "#d6ddc5");
+    rect(fx + 3, fy - 3, 3, 3, "#d6ddc5");
+    poly(
+      [
+        [fx - 7, fy - 6],
+        [fx - 20, fy - 13],
+        [fx - 16, fy - 3],
+      ],
+      "#e5e8d0",
+    );
+  }
   ctx.restore();
+  if (secretGlow > 0) {
+    for (let i = 0; i < 16; i++)
+      star(
+        (i * 73 + 19) % W,
+        25 + ((i * 47) % Math.max(30, H * 0.55)),
+        2,
+        "#fce2a3",
+      );
+  }
+  if (meteorTime > 0) {
+    for (let i = 0; i < 8; i++) {
+      const progress = reduced
+        ? 0.45
+        : ((18 - meteorTime) * 0.38 + i * 0.137) % 1;
+      const mx = W * 0.1 + ((i * 79) % W) - progress * 90,
+        my = 20 + progress * H * 0.45;
+      ctx.strokeStyle = "#f9dfa2";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(mx + 18, my - 9);
+      ctx.lineTo(mx, my);
+      ctx.stroke();
+      star(mx, my, 2);
+    }
+  }
   if (!playing) {
     const shade = ctx.createLinearGradient(0, 0, W, 0);
     shade.addColorStop(0, "#153d45c9");
@@ -549,6 +633,11 @@ function help() {
   openPanel(
     '<div class="eyebrow">TAKE YOUR TIME</div><h2>Take your time.</h2><p>← → / A D: move<br>Space / W / ↑: jump and climb slopes<br>E: read signs, meet residents and light the lighthouse<br>M: open the map and return to discovered places<br>Mobile: use the buttons at the bottom of the screen</p><p>Collect 12 stars along the coast, then press E at the eastern lighthouse. Progress is saved in this browser. No combat. No penalties.</p><span class="tag">Five places · Twelve stars · One coast</span>',
   );
+  $("panelContent").insertAdjacentHTML(
+    "beforeend",
+    `<p><button id="fieldNotes">Field notes · ${discoveries.size} / ${secrets.length} secrets</button></p>`,
+  );
+  $("fieldNotes").onclick = fieldNotes;
 }
 $("helpButton").onclick = help;
 function showMap() {
@@ -586,6 +675,10 @@ function teleport(i) {
 function interact() {
   if (!near) return;
   const p = near;
+  if (p.kind === "harbor") {
+    harborVisits++;
+    if (harborVisits === 3) discover("harbor-echo");
+  }
   if (p.kind === "lighthouse" && save.stars.size === 12 && !save.lit) {
     save.lit = true;
     night = true;
@@ -628,6 +721,10 @@ const handled = [
 ];
 function press(code, repeat = false) {
   if ($("panel").open) return;
+  if (playing && !repeat && tideCode(code)) {
+    secretGlow = 12;
+    discover("tide-code");
+  }
   if (["KeyM", "KeyE"].includes(code)) {
     if (!repeat) {
       if (code === "KeyM") showMap();
@@ -671,10 +768,30 @@ function update(dt) {
     if (p.life <= 0) particles.splice(i, 1);
   }
   if (!playing || $("panel").open) return;
+  secretGlow = Math.max(0, secretGlow - dt);
+  meteorTime = Math.max(0, meteorTime - dt);
   const direction =
     Number(keys.has("ArrowRight") || keys.has("KeyD")) -
     Number(keys.has("ArrowLeft") || keys.has("KeyA"));
   player.vx = direction * 145;
+  const inGarden = Math.abs(player.x - 355 * T) < 58;
+  gardenStill =
+    inGarden &&
+    night &&
+    direction === 0 &&
+    player.ground &&
+    !keys.has("Space") &&
+    !keys.has("KeyW") &&
+    !keys.has("ArrowUp")
+      ? gardenStill + dt
+      : 0;
+  if (gardenStill >= 8) discover("moon-fox");
+  if (save.lit && player.x > 535 * T && !discoveries.has("last-light")) {
+    night = true;
+    $("timeButton").textContent = "Night";
+    meteorTime = 18;
+    discover("last-light");
+  }
   if (direction) player.facing = direction;
   jumpBuffer = Math.max(0, jumpBuffer - dt);
   coyote = player.ground ? 0.1 : Math.max(0, coyote - dt);
@@ -788,5 +905,6 @@ window.starIsles = Object.freeze({
     lit: save.lit,
     wasm: terrain !== heightAt,
     place: places[currentPlace].name,
+    secrets: [...discoveries],
   }),
 });

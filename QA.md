@@ -28,3 +28,13 @@ Screenshots: `preview.png` (title), `ending.png` (completed lighthouse), `mobile
 - Each project has a short purpose statement. The 2048 × Jev repository is explicitly marked as a fork.
 - Curated descriptions were checked against current repository READMEs, or public repository descriptions where no README was available.
 - Browser checks completed without uncaught page errors. Mobile content fits the viewport.
+
+## Hidden discoveries
+
+- Triggered the tide code with normal keyboard events.
+- Interacted with the harbor three times and verified bottle discovery.
+- Waited eight active seconds at the garden at night and verified the fox appears.
+- Walked east from a completed lighthouse save and triggered the meteor shower.
+- Checked Field notes reports all four finds, then reloaded and verified discovery persistence.
+- Inspected the moon fox and Field notes screenshots; no uncaught browser errors during the checks.
+- Existing movement, terrain, stars and quest completion are unchanged. Night-garden timing advances only during active play.
