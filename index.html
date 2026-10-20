@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#143c46" />
     <meta
       name="description"
-      content="Shenton 的像素海岛。散步、跳跃、收集星光，在灯塔下发现一个小小的世界。"
+      content="Explore Shenton's pixel coast. Walk, jump, collect starlight and discover a collection of projects."
     />
     <title>Star Isles — Shenton's Little World</title>
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
@@ -18,7 +18,7 @@
   <body>
     <canvas
       id="game"
-      aria-label="可探索的像素海岛，使用方向键移动，空格跳跃，E 交互"
+      aria-label="Explorable pixel coast. Arrow keys to move, Space to jump, E to interact."
       tabindex="0"
     ></canvas>
     <header>
@@ -27,10 +27,10 @@
         <small>SHENTON'S LITTLE WORLD</small></a
       >
       <nav>
-        <button id="mapButton">地图 <kbd>M</kbd></button
-        ><button id="soundButton" aria-pressed="false">声音：关</button
-        ><button id="timeButton">日落</button
-        ><button id="helpButton" aria-label="操作帮助">?</button
+        <button id="mapButton">Map <kbd>M</kbd></button
+        ><button id="soundButton" aria-pressed="false">Sound: off</button
+        ><button id="timeButton">Sunset</button
+        ><button id="helpButton" aria-label="Controls and help">?</button
         ><a
           href="https://github.com/shentonyan"
           target="_blank"
@@ -41,47 +41,52 @@
     </header>
     <section id="intro">
       <div class="eyebrow">A SMALL WORLD. A LITTLE WONDER.</div>
-      <h1>在世界的边缘，<br />捡一颗<span>星星。</span></h1>
+      <h1>A little world.<br />A little <span>wonder.</span></h1>
       <p>
-        这里是 Shenton 的小小群岛。<br />没有倒计时，没有输赢。只有海风、远方和一点好奇心。
+        Welcome to Shenton's little coast.<br />No timers. No scores. Just sea
+        air and a little curiosity.
       </p>
-      <button id="start" class="primary">开始漫游 <span>→</span></button>
-      <div class="intro-note">方向键 / A D 移动 · 空格跳跃 · E 探索</div>
+      <button id="start" class="primary">Enter the world <span>→</span></button>
+      <div class="intro-note">
+        ARROWS / A D to move · SPACE to jump · E to explore
+      </div>
     </section>
     <aside id="location">
       <span class="location-mark">⌖</span>
-      <div><small>YOU ARE HERE</small><strong id="place">风起码头</strong></div>
+      <div>
+        <small>YOU ARE HERE</small><strong id="place">Windward Harbor</strong>
+      </div>
     </aside>
     <aside id="quest">
-      <small>一封写给夜空的信</small>
+      <small>A LETTER TO THE NIGHT SKY</small>
       <div>
         <span id="starCount">✦ 0 / 12</span
-        ><span id="questText">收集散落的星光，点亮远方的灯塔</span>
+        ><span id="questText">Gather the stars. Light the lighthouse.</span>
       </div>
       <div class="progress"><i id="progress"></i></div>
     </aside>
     <div id="prompt" hidden></div>
     <div id="toast" role="status" aria-live="polite"></div>
     <footer>
-      <span><i class="live-dot"></i> 一个可以慢慢走的地方</span
+      <span><i class="live-dot"></i> A place to take your time</span
       ><span id="controls"
-        >A D / ← → 移动 <b>·</b> SPACE 跳跃 <b>·</b> E 交互 <b>·</b> M
-        地图</span
+        >A D / ← → MOVE <b>·</b> SPACE JUMP <b>·</b> E INTERACT <b>·</b> M
+        MAP</span
       ><span id="engine">RUST TERRAIN · CANVAS WORLD</span>
     </footer>
     <div id="touch">
-      <button data-key="ArrowLeft" aria-label="向左">◀</button
-      ><button data-key="ArrowRight" aria-label="向右">▶</button
-      ><button data-key="KeyE" aria-label="交互">E</button
-      ><button data-key="Space" aria-label="跳跃">↑</button>
+      <button data-key="ArrowLeft" aria-label="Move left">◀</button
+      ><button data-key="ArrowRight" aria-label="Move right">▶</button
+      ><button data-key="KeyE" aria-label="Interact">E</button
+      ><button data-key="Space" aria-label="Jump">↑</button>
     </div>
     <dialog id="panel">
-      <button id="closePanel" aria-label="关闭">×</button>
+      <button id="closePanel" aria-label="Close">×</button>
       <div id="panelContent"></div>
     </dialog>
     <noscript
-      >这个像素世界需要 JavaScript。你也可以直接访问
-      <a href="https://github.com/shentonyan">Shenton 的 GitHub</a>。</noscript
+      >This pixel world needs JavaScript. You can also visit
+      <a href="https://github.com/shentonyan">Shenton on GitHub</a>.</noscript
     >
     <script type="module" src="src/game.js"></script>
   </body>

@@ -1,69 +1,83 @@
-# ✦ Star Isles · 星屿漫游
+# ✦ Star Isles
 
-**A small world. A little wonder.** 一个可以散步、跳跃、收集星光的像素海岸，也是 Shenton 的互动项目主页。
+**A small world. A little wonder.** An explorable pixel coast and a walk-through collection of Shenton's projects.
 
-[在线试玩](https://shentonyan.github.io/star-isles/) · [GitHub](https://github.com/shentonyan/star-isles)
+[Play online](https://shentonyan.github.io/star-isles/) · [Source](https://github.com/shentonyan/star-isles)
 
-![海岛的日落](preview.png)
+![Sunset at Windward Harbor](preview.png)
 
-沿着海岸，从风起码头经过好奇心书屋、造物工坊和听风花园，带着十二颗星光走到远方的灯塔。这个世界没有战斗、倒计时和失败惩罚。
+Walk east, meet the coast's residents, collect twelve stars and light the lighthouse. No timers, combat or failure penalties. All interface text, dialogue, maps and help are in English.
 
-## 怎么玩
+## Places and projects
 
-| 操作 | 键位 |
-| --- | --- |
-| 移动 | ← → / A D |
-| 跳跃、登上坡地 | 空格 / W / ↑ |
-| 阅读、交谈、点亮灯塔 | E |
-| 地图、传送到已发现地点 | M |
+Each stop has a theme. Press **E** near a sign to read project descriptions and open source links. Featured repositories do not imply sole authorship; forks are labelled.
 
-手机使用屏幕下方的按钮。碰到星光会自动收集。收集十二颗后，在灯塔按 E。星光和发现的地点会自动保存在当前浏览器；清除网站数据会清除存档。声音默认关闭，可以开启短音效；右上角切换日落与夜晚。
+| Place                | Theme                        | Featured repositories                                                                                                                                        |
+| -------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Windward Harbor      | Welcome and the world itself | [Star Isles](https://github.com/shentonyan/star-isles)                                                                                                       |
+| Curiosity Library    | Research and ideas           | [Reverse-Engineer a Paper](https://github.com/shentonyan/reverse-engineer-a-paper), [Stable Matching Lab](https://github.com/shentonyan/stable-matching-lab) |
+| Playful Workshop     | Games and interaction        | [2048 × Jev](https://github.com/shentonyan/jev-2048) (fork), [3D Dice](https://github.com/shentonyan/dice6-3d)                                               |
+| Observation Garden   | Time and movement            | [Sunlight Ruler](https://github.com/shentonyan/sunlight-ruler), [Mobility Flow Atlas](https://github.com/shentonyan/mobility-flow-atlas)                     |
+| Starlight Lighthouse | Trust and governance         | [PoL2 Agent Ballot](https://github.com/shentonyan/pol2-agent-ballot), [PoL2 Governance Compiler](https://github.com/shentonyan/pol2-governance-compiler)     |
 
-## 本地运行
+Descriptions were checked against repository READMEs and public descriptions. The collection includes research tools, experiments and prototypes. It does not claim validated real-world outcomes.
 
-需要 Node.js 22 或更新版本，不需要安装 npm 依赖：
+## Controls
+
+| Action                                           | Keys          |
+| ------------------------------------------------ | ------------- |
+| Move                                             | ← → / A D     |
+| Jump and climb slopes                            | Space / W / ↑ |
+| Read signs, meet residents, light the lighthouse | E             |
+| Map and travel to discovered places              | M             |
+
+On mobile, use the on-screen controls. Stars are collected on contact. Bring all twelve to the eastern lighthouse and press E. Progress is saved in the current browser; clearing site data clears the save. Sound is off by default. The top bar switches between sunset and night.
+
+## Run locally
+
+Requires Node.js 22 or later. No npm dependencies are needed.
 
 ```sh
 npm run dev
 ```
 
-打开终端显示的本地地址，默认是 http://127.0.0.1:4173 。仓库附带已编译的 Rust WebAssembly 地形核心，可直接试玩。
+Open the printed address (normally http://127.0.0.1:4173). A compiled Rust/WebAssembly terrain kernel is included.
 
-## Rust 在哪里？
+## Rust and Canvas
 
-`engine/src/lib.rs` 是零第三方依赖的 Rust 地形核心，编译为 WebAssembly，浏览器直接调用 `terrain_height`。JavaScript 负责 Canvas 绘制、输入、碰撞、镜头、任务与存档。这里没有 Java；浏览器交互使用的是 JavaScript。
+`engine/src/lib.rs` is a dependency-free Rust terrain generator compiled to WebAssembly. The browser calls `terrain_height` directly. JavaScript handles rendering, input, collisions, the camera, quests and saves. If WebAssembly cannot load, an equivalent JavaScript formula is used and the footer shows compatibility mode.
 
-如果 WebAssembly 加载失败，使用同公式的 JavaScript 地形回退，并在页脚显示兼容模式。无后端、无账号、无分析追踪。Google Fonts 仅用于字体美化，离线时使用系统字体。
+No backend, accounts or analytics. Google Fonts is optional; system fonts are used if it cannot load.
 
-重新编译 Rust：
+Rebuild the kernel:
 
 ```sh
 rustup target add wasm32-unknown-unknown
 npm run build:world
 ```
 
-检查：
+Run checks:
 
 ```sh
 npm test
 cargo test --manifest-path engine/Cargo.toml
 ```
 
-Node 测试检查地图边界、坡度、收集物布局、损坏存档和通关存档。Rust 测试检查坡度与边界。端到端人工/浏览器检查应覆盖完整步行路线、十二星收集、五地点发现、灯塔交互、刷新存档及手机触控。
+Node checks terrain bounds, slopes, collectible placement, saves and Rust/JavaScript parity. Rust checks continuity and boundaries. See [QA.md](QA.md) for browser verification.
 
-## 改成你的世界
+## Make it yours
 
-- `src/world.js`：地点介绍、项目链接、星光位置。
-- `src/game.js`：像素画面、玩法、角色与建筑。
-- `style.css`：页面配色、文字、手机布局。
-- `engine/src/lib.rs`：地形公式；修改后同步 JavaScript 回退公式。
+- `src/world.js`: place names, themes, descriptions and project cards.
+- `src/game.js`: pixel art, movement, interactions and quests.
+- `style.css`: typography, colors and responsive layout.
+- `engine/src/lib.rs`: terrain formula; keep the JavaScript fallback in sync.
 
-## 发布到 GitHub Pages
+## GitHub Pages
 
-在仓库 **Settings → Pages → Source** 中选择 **GitHub Actions**。推送 main 分支后，工作流测试代码、编译 Rust、打包静态文件并部署。子路径部署受支持，无需服务器或密钥。
+Select **GitHub Actions** in **Settings → Pages → Source**. Pushes to `main` run checks, build Rust and deploy the static site. Repository subpaths are supported.
 
-## 灵感与许可
+## Inspiration and license
 
-灵感来自 [Mars-tin 的可探索像素主页](https://mars-tin.github.io/world/)。学习的是“把主页变成一个可走进去的世界”的交互方式。本项目的代码、像素图形、地图布局与文案独立编写，没有复制原站代码、美术或个人介绍。所有场景使用 Canvas 程序绘制。
+Inspired by [Mars-tin's explorable pixel homepage](https://mars-tin.github.io/world/): a homepage as a place you can walk into. The code, pixel graphics, layout and writing here were independently created. The original site's code, assets and biography were not copied. Scenes are drawn procedurally with Canvas.
 
 MIT License · Copyright © 2026 Shenton YAN.

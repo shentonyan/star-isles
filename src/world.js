@@ -14,46 +14,103 @@ export function heightAt(x) {
 export const places = [
   {
     x: 35,
-    name: "风起码头",
-    en: "THE ARRIVAL",
+    name: "Windward Harbor",
+    en: "01 / WELCOME",
     kind: "harbor",
-    text: "海风刚刚好。欢迎来到我的小小世界。向右走，捡起沿途的星光；空格可以跳上山坡。世界很小，但值得慢慢走。",
+    text: "Welcome to my little corner of the coast. Walk east, follow your curiosity, and collect the starlight along the way. This harbor is the starting point for a tour of the things I build and explore.",
+    projects: [
+      {
+        name: "Star Isles",
+        repo: "star-isles",
+        description:
+          "The world you are walking through: a small pixel adventure with a Rust terrain core and a Canvas front end.",
+      },
+    ],
   },
   {
     x: 135,
-    name: "好奇心书屋",
-    en: "THE LIBRARY",
+    name: "Curiosity Library",
+    en: "02 / RESEARCH & IDEAS",
     kind: "library",
-    text: "有些问题，值得一遍遍追问。这里收藏着关于研究、写作与探索的项目。",
-    links: [
-      ["论文写作探索", "reverse-engineer-a-paper"],
-      ["Jev 项目", "AnyJev"],
+    text: "A place for questions that need more than a quick answer. These projects explore how papers are written and how matching mechanisms behave under explicit assumptions.",
+    projects: [
+      {
+        name: "Reverse-Engineer a Paper",
+        repo: "reverse-engineer-a-paper",
+        description:
+          "A scroll-driven guide to the structure of scientific writing, with sentence-level scenes and short exercises.",
+      },
+      {
+        name: "Stable Matching Lab",
+        repo: "stable-matching-lab",
+        description:
+          "Experiments with deferred acceptance, strategic preference reports, costly search and exploratory market simulation.",
+      },
     ],
   },
   {
     x: 245,
-    name: "造物工坊",
-    en: "THE WORKSHOP",
+    name: "Playful Workshop",
+    en: "03 / GAMES & INTERACTION",
     kind: "workshop",
-    text: "把一个小念头，做成真的东西。代码、实验和不一定有用但很好玩的发明，都从这里开始。",
-    links: [
-      ["全部 GitHub 项目", ""],
-      ["2048 实验台", "jev-2048"],
+    text: "Small ideas become things you can touch, play with and inspect. Here, a familiar puzzle becomes a decision experiment, and a dice roll becomes a little interface.",
+    projects: [
+      {
+        name: "2048 × Jev",
+        repo: "jev-2048",
+        description:
+          "A 2048 decision-model lab that exposes move probabilities, confidence, latency and cost. This repository is a fork of the upstream project.",
+        status: "Fork / experiment",
+      },
+      {
+        name: "3D Dice",
+        repo: "dice6-3d",
+        description:
+          "A minimal black-and-white 3D dice interface designed for mobile interaction.",
+      },
     ],
   },
   {
     x: 355,
-    name: "听风花园",
-    en: "THE QUIET GARDEN",
+    name: "Observation Garden",
+    en: "04 / TIME & MOVEMENT",
     kind: "garden",
-    text: "不必每一步都有目的。有时坐下来听风，也是往前走。试着停留一会儿，看看萤火虫和远处的云。",
+    text: "Pause for a moment. These visual experiments look at things that are easy to overlook: the daylight left in a day, and the movement that connects places.",
+    projects: [
+      {
+        name: "Sunlight Ruler",
+        repo: "sunlight-ruler",
+        description:
+          "An interactive daylight prototype built around the current time, sunrise, sunset and remaining natural light, with city switching.",
+      },
+      {
+        name: "Mobility Flow Atlas",
+        repo: "mobility-flow-atlas",
+        description:
+          "An interactive view of transport and population flows, with a timeline, origin–destination lines and regional summaries.",
+      },
+    ],
   },
   {
     x: 495,
-    name: "星光灯塔",
-    en: "THE LIGHTHOUSE",
+    name: "Starlight Lighthouse",
+    en: "05 / TRUST & GOVERNANCE",
     kind: "lighthouse",
-    text: "有人把没说出口的愿望，留给了星星。收集 12 颗星光，然后在这里按 E，让这片海重新亮起来。",
+    text: "A lighthouse makes a direction visible. These projects ask a related question: how can collective decisions be checked? Bring all twelve stars here and press E to light the coast.",
+    projects: [
+      {
+        name: "PoL2 Agent Ballot",
+        repo: "pol2-agent-ballot",
+        description:
+          "An IVXV-inspired sealed ballot protocol for AI agents, with independently auditable voting records.",
+      },
+      {
+        name: "PoL2 Governance Compiler",
+        repo: "pol2-governance-compiler",
+        description:
+          "A toolkit of contracts, evaluation gates and red-team checks for governance layers. It does not establish decision-model effectiveness.",
+      },
+    ],
   },
 ];
 export const starPositions = [

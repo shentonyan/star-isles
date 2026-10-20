@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 :root {
   color-scheme: dark;
   --ink: #f3edda;
@@ -117,7 +117,7 @@ kbd {
   margin-bottom: 23px;
 }
 h1 {
-  font-family: "Noto Serif SC", serif;
+  font-family: "Libre Baskerville", serif;
   font-size: clamp(35px, 4vw, 60px);
   font-weight: 600;
   letter-spacing: 2px;
@@ -180,7 +180,7 @@ button.primary span {
 }
 #location strong {
   font:
-    500 18px "Noto Serif SC",
+    500 18px "Libre Baskerville",
     serif;
   letter-spacing: 2px;
 }
@@ -308,7 +308,7 @@ dialog::backdrop {
 }
 dialog h2 {
   font:
-    600 28px "Noto Serif SC",
+    600 28px "Libre Baskerville",
     serif;
   line-height: 1.5;
   margin: 10px 0 20px;
@@ -470,6 +470,53 @@ noscript {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+  }
+}
+.project-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+.project-card {
+  padding: 15px 17px;
+  background: #ffffff06;
+  border: 1px solid #f9cc7929;
+  border-radius: 8px;
+}
+.project-card a {
+  font-weight: 600;
+  margin: 0 8px 4px 0;
+}
+.project-card p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.8;
+}
+#intro h1 {
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  line-height: 1.35;
+}
+#location strong {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+@media (max-width: 700px) {
+  #intro h1 {
+    font-size: 34px;
+  }
+  #location {
+    max-width: 135px;
+  }
+  #location strong {
+    font-size: 12px;
+  }
+  #quest {
+    width: 190px;
+  }
+  .intro-note {
+    max-width: 290px;
+    line-height: 1.9;
   }
 }
 @media (max-width: 700px) {

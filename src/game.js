@@ -83,10 +83,10 @@ function updateHUD() {
   $("starCount").textContent = `✦ ${save.stars.size} / 12`;
   $("progress").style.width = `${(save.stars.size / 12) * 100}%`;
   $("questText").textContent = save.lit
-    ? "灯塔已亮。愿你始终心怀好奇。"
+    ? "The coast is glowing. Stay curious."
     : save.stars.size === 12
-      ? "星光集齐！去远方的灯塔按 E"
-      : "收集散落的星光，点亮远方的灯塔";
+      ? "All stars found! Press E at the lighthouse."
+      : "Gather the stars. Light the lighthouse.";
 }
 function note(freq = 660, duration = 0.2) {
   if (!sound) return;
@@ -107,7 +107,7 @@ function note(freq = 660, duration = 0.2) {
     osc.stop(audio.currentTime + duration);
   } catch {
     sound = false;
-    $("soundButton").textContent = "声音不可用";
+    $("soundButton").textContent = "Sound unavailable";
   }
 }
 function burst(x, y, n = 18) {
@@ -534,8 +534,8 @@ function start() {
   canvas.focus({ preventScroll: true });
   toast(
     save.stars.size
-      ? "欢迎回来，星光还在等你。"
-      : "向右出发吧。碰到星光就能收集，路牌附近按 E。",
+      ? "Welcome back. The stars are still waiting."
+      : "Head east. Touch stars to collect them. Press E near a sign.",
   );
 }
 $("start").onclick = start;
@@ -547,17 +547,17 @@ $("home").onclick = (e) => {
 };
 function help() {
   openPanel(
-    '<div class="eyebrow">TAKE YOUR TIME</div><h2>走慢一点，也没关系。</h2><p>← → / A D：左右移动<br>空格 / W / ↑：跳跃，登上小坡<br>E：阅读路牌、与居民交谈、点亮灯塔<br>M：打开地图，传送到已经发现的地点<br>手机：使用屏幕下方的方向与跳跃按钮</p><p>沿海岸收集 12 颗星光，到最东边的灯塔按 E。进度会自动保存在当前浏览器。没有战斗，也没有惩罚。</p><span class="tag">五个地点 · 十二颗星 · 一片海</span>',
+    '<div class="eyebrow">TAKE YOUR TIME</div><h2>Take your time.</h2><p>← → / A D: move<br>Space / W / ↑: jump and climb slopes<br>E: read signs, meet residents and light the lighthouse<br>M: open the map and return to discovered places<br>Mobile: use the buttons at the bottom of the screen</p><p>Collect 12 stars along the coast, then press E at the eastern lighthouse. Progress is saved in this browser. No combat. No penalties.</p><span class="tag">Five places · Twelve stars · One coast</span>',
   );
 }
 $("helpButton").onclick = help;
 function showMap() {
   openPanel(
-    '<div class="eyebrow">THE COASTAL ATLAS</div><h2>沿着海岸，去远方。</h2><p>步行发现新的地方。点选已经去过的地点，即可搭乘海风回去。</p><div class="map-grid">' +
+    '<div class="eyebrow">THE COASTAL ATLAS</div><h2>Follow the coast.</h2><p>Walk to discover each place. Select a visited destination to travel back with the sea breeze.</p><div class="map-grid">' +
       places
         .map(
           (p, i) =>
-            `<button data-place="${i}" ${save.visited.has(i) ? "" : "disabled"}>${save.visited.has(i) ? "✦" : "◇"} ${p.name}<small>${p.en} · ${save.visited.has(i) ? "已发现 / 点击传送" : "沿海岸继续探索"}</small></button>`,
+            `<button data-place="${i}" ${save.visited.has(i) ? "" : "disabled"}>${save.visited.has(i) ? "✦" : "◇"} ${p.name}<small>${p.en} · ${save.visited.has(i) ? "Visited / travel here" : "Keep exploring"}</small></button>`,
         )
         .join("") +
       "</div>",
@@ -589,30 +589,30 @@ function interact() {
   if (p.kind === "lighthouse" && save.stars.size === 12 && !save.lit) {
     save.lit = true;
     night = true;
-    $("timeButton").textContent = "夜晚";
+    $("timeButton").textContent = "Night";
     persist();
     updateHUD();
     burst(p.x * T, terrain(p.x) * T - 120, 100);
     note(880, 1);
-    toast("灯塔亮了。谢谢你，把散落的光带回这里。");
+    toast("The lighthouse is lit. Thank you for bringing the light home.");
   }
   let text = p.text;
   if (p.kind === "lighthouse" && save.lit)
     text =
-      "你把散落的星光带回了灯塔。海面有了方向，旅人有了归途。这个小小的世界，因为你的到来亮了一点。谢谢你走到这里。";
+      "You brought the scattered stars home. The sea has a light to follow, and travelers have a way back. This little world is brighter because you stopped by. Thank you for coming this far.";
   openPanel(
-    `<div class="eyebrow">${p.en}</div><h2>${p.name}</h2><p>${text}</p>${p.links ? p.links.map(([label, repo]) => `<a href="https://github.com/shentonyan/${repo}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`).join("<br>") : ""}${p.kind === "lighthouse" ? `<p class="tag">${save.lit ? "✦ 已点亮 · 旅途完成" : `星光 ${save.stars.size} / 12`}</p>` : ""}`,
+    `<div class="eyebrow">${p.en}</div><h2>${p.name}</h2><p>${text}</p>${p.projects ? `<div class="project-list">${p.projects.map((project) => `<article class="project-card"><a href="https://github.com/shentonyan/${project.repo}" target="_blank" rel="noopener noreferrer">${project.name} ↗</a>${project.status ? `<span class="tag">${project.status}</span>` : ""}<p>${project.description}</p></article>`).join("")}</div>` : ""}${p.kind === "lighthouse" ? `<p class="tag">${save.lit ? "✦ Lighthouse lit · Journey complete" : `Starlight ${save.stars.size} / 12`}</p>` : ""}`,
   );
 }
 $("soundButton").onclick = () => {
   sound = !sound;
-  $("soundButton").textContent = `声音：${sound ? "开" : "关"}`;
+  $("soundButton").textContent = `Sound: ${sound ? "on" : "off"}`;
   $("soundButton").setAttribute("aria-pressed", String(sound));
   if (sound) note(523, 0.3);
 };
 $("timeButton").onclick = () => {
   night = !night;
-  $("timeButton").textContent = night ? "夜晚" : "日落";
+  $("timeButton").textContent = night ? "Night" : "Sunset";
 };
 const handled = [
   "ArrowLeft",
@@ -732,7 +732,7 @@ function update(dt) {
       persist();
       updateHUD();
       if (save.stars.size === 12)
-        toast("十二颗星光集齐了！向东走，到灯塔按 E。");
+        toast("All twelve stars! Head east and press E at the lighthouse.");
     }
   });
   let nearest = 0;
@@ -754,7 +754,7 @@ function update(dt) {
         save.visited.add(i);
         checkpoint = p.x * T;
         persist();
-        toast(`发现 ${p.name} · 已加入地图`);
+        toast(`Discovered ${p.name} · Added to your map`);
         note(440, 0.25);
       }
     }
@@ -763,8 +763,8 @@ function update(dt) {
   if (near)
     $("prompt").textContent =
       near.kind === "lighthouse" && save.stars.size === 12 && !save.lit
-        ? "[ E ] 把星光交给灯塔"
-        : `[ E ] 探索${near.name}`;
+        ? "[ E ] Light the lighthouse"
+        : `[ E ] Explore ${near.name}`;
 }
 let last = performance.now();
 function frame(now) {

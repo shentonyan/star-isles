@@ -17,3 +17,14 @@ Checked on 2026-10-21 (Asia/Hong_Kong).
 - GitHub Actions runs Rust native unit tests on Linux and rebuilds the WebAssembly artifact for deployment. Local Windows native Rust tests require the MSVC linker; the local WebAssembly build succeeds without it.
 
 Screenshots: `preview.png` (title), `ending.png` (completed lighthouse), `mobile.png` (mobile gameplay).
+
+## English interface and project curation
+
+- Checked all five place panels against their nine configured repository links.
+- Inspected the English title on desktop and a 390 × 844 mobile viewport, plus the project-card panel on desktop.
+- Verified the map, help, collection prompts, lighthouse ending and sound toggle use English.
+- Scanned the shipped HTML, game text, world data and README for remaining Chinese text; none found.
+- Used a seeded save to inspect every destination and the ending; existing save keys and place indices are unchanged.
+- Each project has a short purpose statement. The 2048 × Jev repository is explicitly marked as a fork.
+- Curated descriptions were checked against current repository READMEs, or public repository descriptions where no README was available.
+- Browser checks completed without uncaught page errors. Mobile content fits the viewport.
