@@ -611,11 +611,15 @@ $("panel").addEventListener("click", (e) => {
       closePanel();
   }
 });
-$("panel").addEventListener("close", () => keys.clear());
+$("panel").addEventListener("close", () => {
+  keys.clear();
+  requestFrame();
+});
 function start() {
   playing = true;
   document.body.classList.add("playing");
   canvas.focus({ preventScroll: true });
+  requestFrame();
   toast(
     save.stars.size
       ? "Welcome back. The stars are still waiting."
@@ -627,6 +631,8 @@ $("home").onclick = (e) => {
   e.preventDefault();
   playing = false;
   keys.clear();
+  cancelAnimationFrame(animationFrame);
+  animationFrame = 0;
   document.body.classList.remove("playing");
 };
 function help() {
@@ -747,6 +753,7 @@ addEventListener("blur", () => keys.clear());
 document.addEventListener("visibilitychange", () => {
   keys.clear();
   last = performance.now();
+  requestFrame();
 });
 document.querySelectorAll("[data-key]").forEach((b) => {
   b.addEventListener("pointerdown", (e) => {
@@ -884,16 +891,27 @@ function update(dt) {
         : `[ E ] Explore ${near.name}`;
 }
 let last = performance.now();
+let animationFrame = 0;
+function shouldAnimate() {
+  return playing && !$("panel").open && !document.hidden;
+}
+function requestFrame() {
+  if (animationFrame || !shouldAnimate()) return;
+  last = performance.now();
+  animationFrame = requestAnimationFrame(frame);
+}
 function frame(now) {
+  animationFrame = 0;
   const dt = Math.min((now - last) / 1000, 0.033);
   last = now;
   update(dt);
   draw();
-  requestAnimationFrame(frame);
+  if (shouldAnimate()) animationFrame = requestAnimationFrame(frame);
 }
 updateHUD();
 camera = Math.max(0, player.x - W * 0.62);
-requestAnimationFrame(frame);
+draw();
+requestFrame();
 // Small, read-only diagnostics for automated smoke checks and bug reports.
 window.starIsles = Object.freeze({
   snapshot: () => ({
